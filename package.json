@@ -1,0 +1,39 @@
+{
+  "name": "learn-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start",
+    "deploy": "npm run build --deployEnv=$npm_config_deployEnv && npm run deploy-cfn --deployEnv=$npm_config_deployEnv && npm run upload-static-site --deployEnv=$npm_config_deployEnv",
+    "deploy-cfn": "aws cloudformation deploy --template-file ./cloudformation.yaml --stack-name my-static-nextjs-website-$npm_config_deployEnv --parameter-overrides DeployEnvironment=$npm_config_deployEnv",
+    "upload-static-site": "aws s3 cp ./out s3://my-static-nextjs-website-$npm_config_deployEnv --recursive",
+    "teardown": "aws cloudformation delete-stack --stack-name my-static-nextjs-website-$npm_config_deployEnv",
+    "lint": "eslint .",
+    "lint:prettier": "echo 'This script is deprecated, prettier is built into our eslint rules. Running \"npm lint\" instead...' >&2 && npm run lint",
+    "format": "prettier . --write",
+    "format-changed": "pretty-quick --staged",
+    "fix": "npm run format-changed && ( eslint --fix . || true )"
+  },
+  "dependencies": {
+    "@chub/i18n-data": "^2.1.2",
+    "@emotion/core": "^10.1.1",
+    "@emotion/styled": "^10.0.27",
+    "aws-sdk": "^2.970.0",
+    "aws4": "^1.11.0",
+    "axios": "^0.21.1",
+    "next": "^11.0.0",
+    "node-fetch": "^2.6.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1"
+  }
+}
