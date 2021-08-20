@@ -1,0 +1,1 @@
+# static-web-s3-nextjs
